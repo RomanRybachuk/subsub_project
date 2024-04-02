@@ -1,0 +1,21 @@
+.nav {
+  background-color: var(--color-white);
+  padding: 75px 30px 30px 30px;
+
+  &__title {
+    margin-bottom: 15px;
+  }
+
+  &__item {
+    margin-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__link {
+    display: flex;
+    padding: 5px;
+  }
+}
