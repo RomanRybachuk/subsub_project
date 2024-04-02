@@ -1,5 +1,4 @@
 const path = require("path");
-const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -16,8 +15,19 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(html)$/,
+        use: ["html-loader"],
+      },
+      {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|eot|ttf|woff|woff2)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "static/[name].[hash].[ext]",
+        },
       },
     ],
   },
@@ -40,15 +50,5 @@ module.exports = {
       chunkFilename: "[id].css",
     }),
     new CleanWebpackPlugin(),
-    new CopyPlugin({
-      patterns: [
-        // Public
-        {
-          from: path.resolve(__dirname, "src", "public"),
-          to: path.resolve(__dirname, "dist"),
-          noErrorOnMissing: true,
-        },
-      ],
-    }),
   ],
 };

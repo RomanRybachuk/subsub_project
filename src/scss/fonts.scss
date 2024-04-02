@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/inter/regular/Inter-Regular.eot");
+  src: url("../assets/fonts/inter/regular/Inter-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/inter/regular/Inter-Regular.woff2") format("woff2"),
+    url("../assets/fonts/inter/regular/Inter-Regular.woff") format("woff"),
+    url("../assets/fonts/inter/regular/Inter-Regular.ttf") format("truetype"),
+    url("../assets/fonts/inter/regular/Inter-Regular.svg#Inter") format("svg");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/inter/medium/Inter-Medium.eot");
+  src: url("../assets/fonts/inter/medium/Inter-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/inter/medium/Inter-Medium.woff2") format("woff2"),
+    url("../assets/fonts/inter/medium/Inter-Medium.woff") format("woff"),
+    url("../assets/fonts/inter/medium/Inter-Medium.ttf") format("truetype"),
+    url("../assets/fonts/inter/medium/Inter-Medium.svg#Inter") format("svg");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/inter/semibold/Inter-SemiBold.eot");
+  src: url("../assets/fonts/inter/semibold/Inter-SemiBold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/inter/semibold/Inter-SemiBold.woff2") format("woff2"),
+    url("../assets/fonts/inter/semibold/Inter-SemiBold.woff") format("woff"),
+    url("../assets/fonts/inter/semibold/Inter-SemiBold.ttf") format("truetype"),
+    url("../assets/fonts/inter/semibold/Inter-SemiBold.svg#Inter") format("svg");
+  font-weight: 600;
+  font-display: swap;
+}
