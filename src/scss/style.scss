@@ -12,7 +12,7 @@ $mobile-viewport-width: 768px;
 
   --z-index-nav: 200;
   --z-index-menu: 300;
-  --z-index-header: 100;
+  --z-index-header: 300;
 
   --page-container-width: calc(1600px + 40px);
   --main-container-width: calc(760px + 40px);
@@ -97,11 +97,6 @@ body {
   color: var(--color-black);
 }
 
-.logo {
-  width: 172px;
-  display: flex;
-}
-
 .box {
   border-radius: 8px;
   background-color: var(--color-white);
@@ -173,6 +168,16 @@ body {
   font-size: 14px;
   font-weight: 500;
   transition-duration: 250ms;
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0);
+
+  &--transparent {
+    background: none;
+    color: var(--color-black);
+
+    &:hover {
+      box-shadow: 2px 3px 6px rgba(0, 0, 0, 0) !important;
+    }
+  }
 
   &--large {
     font-size: 16px;
@@ -247,21 +252,25 @@ body {
     }
 
     &__main {
-      margin: 0 0 20px 0;
+      margin: 0 0 0 0;
     }
 
     &__aside {
       margin: 0 0 0 0;
     }
+
+    &__container {
+      padding: 0px 0px;
+    }
+  }
+
+  .box {
+    border-radius: 0px;
   }
 
   .aside {
     &__author {
-      margin: 0 0 20px 0;
+      margin: 0 0 0 0;
     }
-  }
-
-  .container {
-    padding: 0px 15px;
   }
 }

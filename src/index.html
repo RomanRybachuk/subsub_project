@@ -69,7 +69,23 @@
   </head>
   <body>
     <div id="app" class="app">
-      <header class="header">
+      <nav class="header__nav nav">
+        <div class="nav__title title">
+          <h3 class="title__main">Settings</h3>
+        </div>
+        <ul class="nav__list">
+          <li class="nav__item">
+            <a class="nav__link" href="#">Profile</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="#">Settings</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="#">Support</a>
+          </li>
+        </ul>
+      </nav>
+      <header class="header scroll-up scroll-start" id="header">
         <div class="header__container">
           <div class="header__inner">
             <!-- Logo -->
@@ -85,22 +101,6 @@
               </div>
               <div class="menu__burger"></div>
             </div>
-            <nav class="header__nav nav">
-              <div class="nav__title title">
-                <h3 class="title__main">Settings</h3>
-              </div>
-              <ul class="nav__list">
-                <li class="nav__item">
-                  <a class="nav__link" href="#">Profile</a>
-                </li>
-                <li class="nav__item">
-                  <a class="nav__link" href="#">Settings</a>
-                </li>
-                <li class="nav__item">
-                  <a class="nav__link" href="#">Support</a>
-                </li>
-              </ul>
-            </nav>
           </div>
         </div>
       </header>
@@ -209,7 +209,7 @@
                           src="./assets/icons/comment.svg"
                           alt="comment post icon"
                         />
-                        <span>46</span>
+                        <span data-comments-count></span>
                       </button>
                       <button class="post__share" aria-label="share post">
                         <img

@@ -5,7 +5,7 @@ interface IComment {
   avatar: string;
   created_at_timestamp: number;
   likes: number;
-  self?: boolean;
+  sub?: boolean;
   replying?: boolean;
   replies: IComment[];
 }
@@ -16,6 +16,7 @@ export default class Comments {
   form = document.querySelector("[data-comments-form]");
   field = document.querySelector("[data-comments-field]") as HTMLInputElement;
   create_button = document.querySelector("[data-comments-create]");
+  comments_count = document.querySelector("[data-comments-count]");
 
   constructor() {
     this.init();
@@ -41,8 +42,14 @@ export default class Comments {
         avatar: "/avatars/anonymous.png",
         created_at_timestamp: Date.now(),
         likes: 0,
-        self: true,
         replies: [],
+      });
+
+      this.comments = this.comments.map((comment) => {
+        return {
+          ...comment,
+          replying: false,
+        };
       });
 
       this.mount();
@@ -110,7 +117,7 @@ export default class Comments {
                     avatar: "/avatars/anonymous.png",
                     created_at_timestamp: Date.now(),
                     likes: 0,
-                    self: true,
+                    sub: true,
                     replies: [],
                   },
                 ],
@@ -167,7 +174,7 @@ export default class Comments {
                 <span>${data.likes}</span>
               </button>
               ${
-                !data.self
+                !data.sub
                   ? /*html*/ `
                     <button
                       class="comment-item__reply"
@@ -222,7 +229,7 @@ export default class Comments {
                     </button>
                     <button
                       data-comments-reply-cancel
-                      class="comments-sender__button button active"
+                      class="comments-sender__button button button--transparent active"
                       type="button"
                     >
                       <span>Cancel</span>
@@ -248,6 +255,14 @@ export default class Comments {
   async mount() {
     this.root.innerHTML = "";
     this.root.insertAdjacentHTML("beforeend", this.render());
+
+    this.comments_count.textContent = this._get_comments_count().toString();
+  }
+
+  _get_comments_count(): number {
+    return this.comments.reduce((accumulator, comment) => {
+      return accumulator + comment.replies.length + 1;
+    }, 0);
   }
 
   _convertTimestampToDays(timestamp: number) {
@@ -275,13 +290,13 @@ export default class Comments {
         replies: [
           {
             id: "1",
-            self: true,
             name: "Anonymous",
             text: "That sounds great !!!",
             avatar: "/avatars/anonymous.png",
             created_at_timestamp: Date.now(),
             likes: 10,
             replies: [],
+            sub: true,
           },
         ],
       },

@@ -1,6 +1,6 @@
 .menu {
   background-color: var(--color-grey);
-  padding: 4px;
+  padding: 4px 10px 4px 4px;
   border-radius: 500px;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@
   }
 
   &__burger {
-    width: 24px;
+    width: 18px;
     height: 8px;
     position: relative;
     margin-left: 10px;

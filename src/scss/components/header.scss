@@ -6,6 +6,12 @@
   right: 0;
   z-index: var(--z-index-header);
   background-color: var(--color-white);
+  transform: translate(0, -100%);
+  transition-duration: 250ms;
+
+  &.scroll-up {
+    transform: translate(0, 0);
+  }
 
   &__inner {
     padding: 15px 25px;
@@ -35,5 +41,22 @@
       visibility: visible;
       pointer-events: auto;
     }
+  }
+}
+
+.logo {
+  width: 172px;
+  display: flex;
+}
+
+@media (max-width: $tablet-viewport-width) {
+  .header {
+    &__inner {
+      height: 60px;
+    }
+  }
+
+  .logo {
+    width: 120px;
   }
 }
