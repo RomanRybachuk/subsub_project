@@ -1,3 +1,24 @@
+// Variables
+$desktop-viewport-width: 1440px;
+$tablet-viewport-width: 1024px;
+$mobile-viewport-width: 768px;
+
+:root {
+  --color-grey: #f3f3f3;
+  --color-grey-black: #707070;
+  --color-black: #19191a;
+  --color-white: #ffffff;
+  --color-milk: #e1e1e1;
+
+  --z-index-nav: 200;
+  --z-index-menu: 300;
+  --z-index-header: 100;
+
+  --page-container-width: calc(1600px + 40px);
+  --main-container-width: calc(760px + 40px);
+  --aside-container-width: calc(416px + 40px);
+}
+
 // Reset
 * {
   margin: 0;
@@ -37,29 +58,24 @@ button {
   border: none;
 }
 
+// Scroll bar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(20, 20, 20, 0.1);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color-black);
+}
+
 // Fonts
 @import "./fonts.scss";
-
-// Variables
-$desktop-viewport-width: 1440px;
-$tablet-viewport-width: 1024px;
-$mobile-viewport-width: 768px;
-
-:root {
-  --color-grey: #f3f3f3;
-  --color-grey-black: #707070;
-  --color-black: #19191a;
-  --color-white: #ffffff;
-  --color-milk: #e1e1e1;
-
-  --z-index-nav: 200;
-  --z-index-menu: 300;
-  --z-index-header: 100;
-
-  --page-container-width: calc(1600px + 40px);
-  --main-container-width: calc(760px + 40px);
-  --aside-container-width: calc(416px + 40px);
-}
 
 // Components
 @import "./components/header.scss";
@@ -78,6 +94,7 @@ body {
   font-weight: 400;
   background-color: var(--color-milk);
   line-height: 150%;
+  color: var(--color-black);
 }
 
 .logo {

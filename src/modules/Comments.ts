@@ -142,7 +142,7 @@ export default class Comments {
         <div class="comment-item__body">
           <div class="comment-item__info">
             <div class="comment-item__title title title--x-small">
-              <h5 class="title__main"> ${data.name}</h5>
+              <h4 class="title__main"> ${data.name}</h4>
               <p class="title__sub">
                 ${data.text}
               </p>
@@ -261,6 +261,7 @@ export default class Comments {
   }
 
   async getComments(): Promise<Array<IComment>> {
+    // Simulation of data getting delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     return [
