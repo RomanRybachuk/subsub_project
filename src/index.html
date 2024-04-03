@@ -172,11 +172,16 @@
                           alt="avatar"
                         />
                       </div>
-                      <form class="comments-sender__form">
+                      <form class="comments-sender__form" data-comments-form>
                         <div class="comments-sender__field field">
-                          <input type="text" placeholder="Comment here..." />
+                          <input
+                            type="text"
+                            placeholder="Comment here..."
+                            data-comments-field
+                          />
                         </div>
                         <button
+                          data-comments-create
                           class="comments-sender__button button"
                           type="submit"
                         >

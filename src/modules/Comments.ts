@@ -6,18 +6,125 @@ interface IComment {
   created_at_timestamp: number;
   likes: number;
   self?: boolean;
+  replying?: boolean;
   replies: IComment[];
 }
 
 export default class Comments {
   comments: Array<IComment>;
   root = document.querySelector("[data-comments-list]");
+  form = document.querySelector("[data-comments-form]");
+  field = document.querySelector("[data-comments-field]") as HTMLInputElement;
+  create_button = document.querySelector("[data-comments-create]");
 
   constructor() {
     this.init();
   }
 
   async init() {
+    this.field.addEventListener("input", (event: InputEvent) => {
+      if (this.field.value) {
+        this.create_button.classList.add("active");
+      } else {
+        this.create_button.classList.remove("active");
+      }
+    });
+
+    this.form.addEventListener("submit", async (event: SubmitEvent) => {
+      event.preventDefault();
+      if (!this.field.value || !this.comments) return;
+
+      this.comments.push({
+        id: Date.now().toString(),
+        name: "Anonymous",
+        text: this.field.value,
+        avatar: "/avatars/anonymous.png",
+        created_at_timestamp: Date.now(),
+        likes: 0,
+        self: true,
+        replies: [],
+      });
+
+      this.mount();
+
+      this.field.value = "";
+      this.create_button.classList.remove("active");
+    });
+
+    this.root.addEventListener("click", async (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      if (target.closest("[data-comments-reply]")) {
+        const item: HTMLLIElement = target.closest("[data-comment-id]");
+        const id = item.dataset.commentId;
+
+        this.comments = this.comments.map((comment) => {
+          if (comment.id === id) {
+            return {
+              ...comment,
+              replying: true,
+            };
+          }
+
+          return comment;
+        });
+
+        this.mount();
+
+        const cancel = document.querySelector(
+          "[data-comments-reply-cancel]"
+        ) as HTMLButtonElement;
+        const form = document.querySelector(
+          "[data-comments-reply-form]"
+        ) as HTMLFormElement;
+        const field = document.querySelector(
+          "[data-comments-reply-field]"
+        ) as HTMLInputElement;
+
+        cancel.addEventListener("click", async (event: MouseEvent) => {
+          this.comments = this.comments.map((comment) => {
+            return {
+              ...comment,
+              replying: false,
+            };
+          });
+
+          this.mount();
+        });
+
+        form.addEventListener("submit", async (event: SubmitEvent) => {
+          event.preventDefault();
+          if (!field.value) return;
+
+          this.comments = this.comments.map((comment) => {
+            if (comment.id === id) {
+              return {
+                ...comment,
+                replying: false,
+                replies: [
+                  ...comment.replies,
+                  {
+                    id: Date.now().toString(),
+                    name: "Anonymous",
+                    text: field.value,
+                    avatar: "/avatars/anonymous.png",
+                    created_at_timestamp: Date.now(),
+                    likes: 0,
+                    self: true,
+                    replies: [],
+                  },
+                ],
+              };
+            }
+
+            return comment;
+          });
+
+          this.mount();
+        });
+      }
+    });
+
     this.comments = await this.getComments();
 
     this.mount();
@@ -25,7 +132,7 @@ export default class Comments {
 
   template(data: IComment): string {
     return /*html*/ `
-      <li class="comments__item comment-item">
+      <li class="comments__item comment-item" data-comment-id="${data.id}">
         <div class="comment-item__avatar">
           <img
             src="${data.avatar}"
@@ -63,7 +170,8 @@ export default class Comments {
                 !data.self
                   ? /*html*/ `
                     <button
-                      class="comment-item__share"
+                      class="comment-item__reply"
+                      data-comments-reply
                       aria-label="reply post"
                     >
                       <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,6 +194,45 @@ export default class Comments {
               `
               : ""
           }
+          ${
+            data.replying
+              ? /*html*/ `
+              <div class="comments__sender comments-sender" style="margin-top: 20px;">
+                <div class="comments-sender__avatar">
+                  <img
+                    src="/avatars/anonymous.png"
+                    alt="avatar"
+                  />
+                </div>
+                <form class="comments-sender__form" data-comments-reply-form>
+                  <div class="comments-sender__field field">
+                    <input
+                      type="text"
+                      placeholder="Comment here..."
+                      data-comments-reply-field
+                    />
+                  </div>
+                  <div class="comments-sender__actions">
+                    <button
+                      data-comments-create
+                      class="comments-sender__button button active"
+                      type="submit"
+                    >
+                      <span>Submit</span>
+                    </button>
+                    <button
+                      data-comments-reply-cancel
+                      class="comments-sender__button button active"
+                      type="button"
+                    >
+                      <span>Cancel</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              `
+              : ""
+          }
         </div>
         <div class="comment-item__number">${this._convertTimestampToDays(
           data.created_at_timestamp
@@ -98,9 +245,8 @@ export default class Comments {
     return this.comments.map((comment) => this.template(comment)).join("");
   }
 
-  mount() {
+  async mount() {
     this.root.innerHTML = "";
-
     this.root.insertAdjacentHTML("beforeend", this.render());
   }
 
@@ -130,7 +276,7 @@ export default class Comments {
             id: "1",
             self: true,
             name: "Anonymous",
-            text: "Very Good!!!",
+            text: "That sounds great !!!",
             avatar: "/avatars/anonymous.png",
             created_at_timestamp: Date.now(),
             likes: 10,
