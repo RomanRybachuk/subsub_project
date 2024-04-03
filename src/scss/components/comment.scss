@@ -1,2 +1,75 @@
+.comments {
+  &__inner {
+    padding: 30px 0;
+  }
+
+  &__item {
+    margin-bottom: 30px;
+  }
+}
+
 .comment-item {
+  display: flex;
+
+  &__info {
+    flex: 1 0 auto;
+    margin-left: 15px;
+  }
+
+  &__number {
+    color: var(--color-grey-black);
+  }
+
+  &__avatar {
+    width: 48px;
+  }
+
+  &__title {
+    margin-bottom: 8px;
+  }
+
+  &__actions {
+    display: flex;
+
+    & button {
+      display: flex;
+      align-items: center;
+      margin-left: 20px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      & span {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
+.comments-sender {
+  display: flex;
+
+  &__avatar {
+    width: 48px;
+  }
+
+  &__field {
+    margin-bottom: 15px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    flex: 1 0 auto;
+  }
+
+  &__button {
+    align-self: flex-start;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }

@@ -1,6 +1,7 @@
 .nav {
   background-color: var(--color-white);
   padding: 75px 30px 30px 30px;
+  box-shadow: -1px 2px 10px rgba(0, 0, 0, 0.05);
 
   &__title {
     margin-bottom: 15px;

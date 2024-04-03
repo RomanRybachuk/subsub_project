@@ -3,6 +3,7 @@
     .title {
       &__main {
         font-size: 32px;
+        margin-bottom: 15px;
       }
     }
   }
@@ -11,6 +12,7 @@
     .title {
       &__main {
         font-size: 24px;
+        margin-bottom: 10px;
       }
     }
   }
@@ -19,6 +21,7 @@
     .title {
       &__main {
         font-size: 20px;
+        margin-bottom: 5px;
       }
     }
   }
@@ -27,6 +30,7 @@
     .title {
       &__main {
         font-size: 16px;
+        margin-bottom: 3px;
       }
     }
   }
@@ -35,5 +39,6 @@
     font-size: 24px;
     font-weight: 600;
     line-height: 140%;
+    margin-bottom: 10px;
   }
 }

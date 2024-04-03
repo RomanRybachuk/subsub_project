@@ -1,0 +1,45 @@
+.recents-post {
+  &__inner {
+    padding: 30px 0;
+  }
+
+  &__title {
+    & .title {
+      &__main {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.recents-post-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px 0;
+  border-bottom: 1px solid #e6e6e6;
+
+  &__title {
+    & .title {
+      &__main {
+        font-weight: 500;
+      }
+    }
+  }
+
+  &__date {
+    color: var(--color-grey-black);
+    font-size: 14px;
+  }
+
+  &__image {
+    max-width: 56px;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    margin-right: 15px;
+  }
+
+  &__info {
+  }
+}

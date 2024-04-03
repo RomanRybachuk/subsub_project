@@ -45,7 +45,7 @@
   }
 
   &__title {
-    margin-bottom: 15px;
+    margin-bottom: 0px;
   }
 
   &__date {
@@ -60,7 +60,8 @@
   }
 
   &__inner {
-    padding: 30px 0;
+    padding: 30px 0 30px;
+    border-bottom: 1px solid #cfcfcf;
   }
 
   &__article {

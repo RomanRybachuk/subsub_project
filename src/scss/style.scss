@@ -19,6 +19,15 @@ img {
   width: 100%;
 }
 
+input {
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
 button {
   cursor: pointer;
   font-family: inherit;
@@ -38,6 +47,8 @@ button {
 @import "./components/title.scss";
 @import "./components/post.scss";
 @import "./components/comment.scss";
+@import "./components/author.scss";
+@import "./components/recents-post.scss";
 
 // Variables
 :root {
@@ -87,6 +98,10 @@ body {
   & .container {
     max-width: 415px;
   }
+
+  &__author {
+    margin-bottom: 30px;
+  }
 }
 
 .content {
@@ -108,5 +123,43 @@ body {
     margin-left: 25px;
     max-width: 480px;
     width: 100%;
+  }
+}
+
+.field {
+  display: flex;
+
+  & input {
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    width: 100%;
+
+    &::placeholder {
+      color: var(--color-grey-black);
+    }
+  }
+}
+
+.button {
+  border-radius: 8px;
+  background-color: var(--color-black);
+  padding: 8px 18px;
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 500;
+  transition-duration: 250ms;
+
+  &--large {
+    font-size: 16px;
+    padding: 15px 30px;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &:hover {
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.2);
   }
 }
