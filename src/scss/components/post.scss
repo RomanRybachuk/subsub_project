@@ -99,3 +99,51 @@
     }
   }
 }
+
+@media (max-width: $tablet-viewport-width) {
+  .welcome {
+    &__inner {
+      padding: 40px 0 20px;
+    }
+
+    &__header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    &__back {
+      margin: 0 0 0 0;
+
+      & span {
+        margin-left: 5px;
+        font-size: 12px;
+      }
+    }
+
+    &__badge {
+      margin: 0 0 0 20px;
+    }
+  }
+
+  .post {
+    &__inner {
+      padding: 20px 0 20px;
+    }
+
+    &__article {
+      & p {
+        margin-bottom: 20px;
+      }
+
+      & img {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: $mobile-viewport-width) {
+}

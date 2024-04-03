@@ -18,10 +18,12 @@
 
   &__number {
     color: var(--color-grey-black);
+    margin-left: 15px;
   }
 
   &__avatar {
-    width: 48px;
+    max-width: 48px;
+    flex: 1 0 auto;
   }
 
   &__title {
@@ -51,7 +53,8 @@
   display: flex;
 
   &__avatar {
-    width: 48px;
+    max-width: 48px;
+    flex: 1 0 auto;
   }
 
   &__field {
@@ -71,5 +74,13 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+  }
+}
+
+@media (max-width: $tablet-viewport-width) {
+  .comments {
+    &__inner {
+      padding: 30px 0 10px;
+    }
   }
 }

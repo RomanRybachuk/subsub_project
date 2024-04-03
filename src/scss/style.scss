@@ -40,17 +40,11 @@ button {
 // Fonts
 @import "./fonts.scss";
 
-// Components
-@import "./components/header.scss";
-@import "./components/menu.scss";
-@import "./components/nav.scss";
-@import "./components/title.scss";
-@import "./components/post.scss";
-@import "./components/comment.scss";
-@import "./components/author.scss";
-@import "./components/recents-post.scss";
-
 // Variables
+$desktop-viewport-width: 1440px;
+$tablet-viewport-width: 1024px;
+$mobile-viewport-width: 768px;
+
 :root {
   --color-grey: #f3f3f3;
   --color-grey-black: #707070;
@@ -61,7 +55,21 @@ button {
   --z-index-nav: 200;
   --z-index-menu: 300;
   --z-index-header: 100;
+
+  --page-container-width: calc(1600px + 40px);
+  --main-container-width: calc(760px + 40px);
+  --aside-container-width: calc(416px + 40px);
 }
+
+// Components
+@import "./components/header.scss";
+@import "./components/menu.scss";
+@import "./components/nav.scss";
+@import "./components/title.scss";
+@import "./components/post.scss";
+@import "./components/comment.scss";
+@import "./components/author.scss";
+@import "./components/recents-post.scss";
 
 // Base
 body {
@@ -90,13 +98,13 @@ body {
 
 .main {
   & .container {
-    max-width: 750px;
+    max-width: var(--main-container-width);
   }
 }
 
 .aside {
   & .container {
-    max-width: 415px;
+    max-width: var(--aside-container-width);
   }
 
   &__author {
@@ -105,10 +113,10 @@ body {
 }
 
 .content {
-  padding: 60px 20px 30px;
+  padding: 60px 0px 30px;
 
   &__container {
-    max-width: 1600px;
+    max-width: var(--page-container-width);
   }
 
   &__inner {
@@ -121,8 +129,7 @@ body {
 
   &__aside {
     margin-left: 25px;
-    max-width: 480px;
-    width: 100%;
+    min-width: 470px;
   }
 }
 
@@ -161,5 +168,39 @@ body {
 
   &:hover {
     box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: $desktop-viewport-width) {
+  .content {
+    &__aside {
+      min-width: initial;
+    }
+  }
+}
+
+@media (max-width: $tablet-viewport-width) {
+  .content {
+    &__inner {
+      flex-direction: column;
+    }
+
+    &__main {
+      margin: 0 0 20px 0;
+    }
+
+    &__aside {
+      margin: 0 0 0 0;
+    }
+  }
+
+  .aside {
+    &__author {
+      margin: 0 0 20px 0;
+    }
+  }
+
+  .container {
+    padding: 0px 15px;
   }
 }

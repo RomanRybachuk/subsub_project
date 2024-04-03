@@ -43,3 +43,11 @@
   &__info {
   }
 }
+
+@media (max-width: $tablet-viewport-width) {
+  .recents-post {
+    &__inner {
+      padding: 20px 0;
+    }
+  }
+}

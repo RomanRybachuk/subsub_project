@@ -42,3 +42,43 @@
     margin-bottom: 10px;
   }
 }
+
+@media (max-width: $mobile-viewport-width) {
+  .title {
+    &--large {
+      .title {
+        &__main {
+          font-size: 24px;
+          margin-bottom: 15px;
+        }
+      }
+    }
+
+    &--normal {
+      .title {
+        &__main {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    &--small {
+      .title {
+        &__main {
+          font-size: 16px;
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    &--x-small {
+      .title {
+        &__main {
+          font-size: 16px;
+          margin-bottom: 3px;
+        }
+      }
+    }
+  }
+}
