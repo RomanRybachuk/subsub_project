@@ -142,7 +142,7 @@ export default class Comments {
         <div class="comment-item__body">
           <div class="comment-item__info">
             <div class="comment-item__title title title--x-small">
-              <h4 class="title__main"> ${data.name}</h4>
+              <div class="title__main">${data.name}</div>
               <p class="title__sub">
                 ${data.text}
               </p>

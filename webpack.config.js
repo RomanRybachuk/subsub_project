@@ -10,7 +10,7 @@ module.exports = {
     index: path.resolve(__dirname, "src", "index.ts"),
   },
   output: {
-    filename: "[name].js",
+    filename: "[name].[hash].js",
     path: path.resolve(__dirname, "dist"),
   },
   module: {
@@ -52,7 +52,7 @@ module.exports = {
       template: path.resolve(__dirname, "src", "index.html"),
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: "[name].[hash].css",
       chunkFilename: "[id].css",
     }),
     new CleanWebpackPlugin(),
