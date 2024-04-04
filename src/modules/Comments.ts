@@ -5,6 +5,7 @@ interface IComment {
   avatar: string;
   created_at_timestamp: number;
   likes: number;
+  liked?: boolean;
   sub?: boolean;
   replying?: boolean;
   replies: IComment[];
@@ -60,10 +61,18 @@ export default class Comments {
 
     this.root.addEventListener("click", async (event: MouseEvent) => {
       const target = event.target as HTMLElement;
+      let item: HTMLLIElement = target.closest("[data-comment-id]");
+
+      if (!item) return;
+
+      let id = item.dataset.commentId;
 
       if (target.closest("[data-comments-reply]")) {
-        const item: HTMLLIElement = target.closest("[data-comment-id]");
-        const id = item.dataset.commentId;
+        const current_comment = this.comments.find(
+          (comment) => comment.id === id
+        );
+
+        if (current_comment && current_comment.replying) return;
 
         this.comments = this.comments.map((comment) => {
           if (comment.id === id) {
@@ -73,18 +82,26 @@ export default class Comments {
             };
           }
 
-          return comment;
+          return {
+            ...comment,
+            replying: false,
+          };
         });
 
         this.mount();
 
-        const cancel = document.querySelector(
+        item = document.querySelector(`[data-comment-id="${id}"]`);
+
+        const cancel = item.querySelector(
           "[data-comments-reply-cancel]"
         ) as HTMLButtonElement;
-        const form = document.querySelector(
+        const submit = item.querySelector(
+          "[data-comments-create]"
+        ) as HTMLButtonElement;
+        const form = item.querySelector(
           "[data-comments-reply-form]"
         ) as HTMLFormElement;
-        const field = document.querySelector(
+        const field = item.querySelector(
           "[data-comments-reply-field]"
         ) as HTMLInputElement;
 
@@ -97,6 +114,14 @@ export default class Comments {
           });
 
           this.mount();
+        });
+
+        field.addEventListener("input", (event: InputEvent) => {
+          if (field.value) {
+            submit.classList.add("active");
+          } else {
+            submit.classList.remove("active");
+          }
         });
 
         form.addEventListener("submit", async (event: SubmitEvent) => {
@@ -130,6 +155,42 @@ export default class Comments {
           this.mount();
         });
       }
+
+      //
+      else if (target.closest("[data-comments-like]")) {
+        this.comments = this.comments.map((comment) => {
+          if (comment.id === id) {
+            return {
+              ...comment,
+              liked: !comment.liked,
+            };
+          } else if (comment.replies.find((item) => item.id === id)) {
+            return {
+              ...comment,
+              replies: comment.replies.map((item) => {
+                if (item.id === id) {
+                  return {
+                    ...item,
+                    liked: !item.liked,
+                  };
+                }
+
+                return item;
+              }),
+            };
+          }
+          return comment;
+        });
+
+        this.comments = this.comments.map((comment) => {
+          return {
+            ...comment,
+            replying: false,
+          };
+        });
+
+        this.mount();
+      }
     });
 
     this.comments = await this.getComments();
@@ -137,11 +198,26 @@ export default class Comments {
     this.mount();
   }
 
+  _escapeHTML(text: string) {
+    return text.replace(/[&<>"']/g, function (m: string) {
+      const htmlSymbol: { [key: string]: string } = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      };
+
+      return htmlSymbol[m];
+    });
+  }
+
   template(data: IComment): string {
     return /*html*/ `
       <li class="comments__item comment-item" data-comment-id="${data.id}">
         <div class="comment-item__avatar">
           <img
+            loading="lazy"
             src="${data.avatar}"
             alt="comment avatar"
           />
@@ -151,13 +227,14 @@ export default class Comments {
             <div class="comment-item__title title title--x-small">
               <div class="title__main">${data.name}</div>
               <p class="title__sub">
-                ${data.text}
+                ${this._escapeHTML(data.text)}
               </p>
             </div>
             <div class="comment-item__actions">
               <button
                 class="comment-item__like"
                 aria-label="like comment"
+                data-comments-like
               >
                 <svg
                   width="18"
@@ -168,10 +245,10 @@ export default class Comments {
                 >
                   <path
                     d="M12.7454 -0.00848389C11.1331 -0.00848389 9.75538 1.14075 8.99845 1.93305C8.24153 1.14075 6.86691 -0.00848389 5.25538 -0.00848389C2.47768 -0.00848389 0.538452 1.92767 0.538452 4.69921C0.538452 7.75305 2.94691 9.7269 5.27691 11.6361C6.37691 12.5384 7.51538 13.4707 8.38845 14.5046C8.53538 14.6777 8.75076 14.7777 8.97691 14.7777H9.02153C9.24845 14.7777 9.46307 14.6769 9.60922 14.5046C10.4838 13.4707 11.6215 12.5377 12.7223 11.6361C15.0515 9.72767 17.4615 7.75382 17.4615 4.69921C17.4615 1.92767 15.5223 -0.00848389 12.7454 -0.00848389Z"
-                    fill="#A9A9A9"
+                    fill="${data.liked ? "#E92929" : "#A9A9A9"}"
                   />
                 </svg>
-                <span>${data.likes}</span>
+                <span>${data.liked ? data.likes + 1 : data.likes}</span>
               </button>
               ${
                 !data.sub
@@ -214,6 +291,7 @@ export default class Comments {
                 <form class="comments-sender__form" data-comments-reply-form>
                   <div class="comments-sender__field field">
                     <input
+                      required
                       type="text"
                       placeholder="Comment here..."
                       data-comments-reply-field
@@ -222,7 +300,7 @@ export default class Comments {
                   <div class="comments-sender__actions">
                     <button
                       data-comments-create
-                      class="comments-sender__button button active"
+                      class="comments-sender__button button"
                       type="submit"
                     >
                       <span>Submit</span>
@@ -289,7 +367,7 @@ export default class Comments {
         likes: 34,
         replies: [
           {
-            id: "1",
+            id: "123623632",
             name: "Anonymous",
             text: "That sounds great !!!",
             avatar: "/avatars/anonymous.png",

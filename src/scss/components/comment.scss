@@ -53,6 +53,7 @@
       & span {
         color: var(--color-black);
         margin-left: 4px;
+        width: 25px;
       }
     }
   }
@@ -92,14 +93,10 @@
   &__button {
     align-self: flex-start;
 
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+    display: none;
 
     &.active {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
+      display: block;
     }
   }
 }
