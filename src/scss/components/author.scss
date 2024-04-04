@@ -9,6 +9,10 @@
   &__avatar {
     width: 100px;
     margin-bottom: 15px;
+
+    & img {
+      object-fit: cover;
+    }
   }
 
   &__supporters {

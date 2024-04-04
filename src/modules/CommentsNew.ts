@@ -1,15 +1,4 @@
-interface IComment {
-  id: string;
-  name: string;
-  text: string;
-  avatar: string;
-  created_at_timestamp: number;
-  likes: number;
-  liked?: boolean;
-  sub?: boolean;
-  replying?: boolean;
-  replies: IComment[];
-}
+import type { IComment } from "../types";
 
 export default class Comments {
   comments: Array<IComment>;
@@ -68,10 +57,68 @@ export default class Comments {
         });
 
         // Change view
-        this.update_like(
-          document.querySelector(`[data-comment-id="${id}"]`) as HTMLElement,
-          this.get_comment_by_id(id)
+        this.update_like(item, this.get_comment_by_id(id));
+      }
+
+      // Reply action
+      else if (target.closest("[data-comment-reply-button]")) {
+        const sender_form = Array.from(
+          item.querySelectorAll("[data-comment-sender]")
+        ).slice(-1)[0];
+
+        sender_form.classList.add("active");
+
+        const replies_list = item.querySelector(
+          "[data-comment-replies]"
+        ) as HTMLElement;
+        const cancel = sender_form.querySelector(
+          "[data-comment-cancel-reply-button]"
         );
+        const submit = sender_form.querySelector(
+          "[data-comment-create-reply-button]"
+        );
+        const form = sender_form.querySelector("[data-comment-reply-form]");
+        const field = sender_form.querySelector(
+          "[data-comment-reply-field]"
+        ) as HTMLInputElement;
+
+        cancel.addEventListener("click", (event: MouseEvent) => {
+          sender_form.classList.remove("active");
+        });
+
+        field.addEventListener("input", (event: InputEvent) => {
+          if (field.value) {
+            submit.classList.add("active");
+          } else {
+            submit.classList.remove("active");
+          }
+        });
+
+        form.addEventListener("submit", (event: SubmitEvent) => {
+          event.preventDefault();
+
+          if (!field.value) return;
+
+          const data: IComment = {
+            id: Date.now().toString(),
+            name: "Anonymous",
+            text: field.value,
+            avatar: "/avatars/anonymous.png",
+            created_at_timestamp: Date.now(),
+            likes: 0,
+            parent: id,
+            replies: [],
+          };
+
+          this.add_comment(replies_list, data);
+
+          field.value = "";
+          submit.classList.remove("active");
+          sender_form.classList.remove("active");
+          replies_list.classList.add("active");
+
+          this.update_comments_count();
+        });
       }
     });
 
@@ -91,14 +138,14 @@ export default class Comments {
       const data: IComment = {
         id: Date.now().toString(),
         name: "Anonymous",
-        text: this._escapeHTML(this.field.value),
+        text: this.field.value,
         avatar: "/avatars/anonymous.png",
         created_at_timestamp: Date.now(),
         likes: 0,
         replies: [],
       };
 
-      this.add_comment(data);
+      this.add_comment(this.root, data);
 
       this.field.value = "";
       this.submit.classList.remove("active");
@@ -117,12 +164,25 @@ export default class Comments {
     return comments.find((comment) => comment.id === id);
   }
 
-  add_comment(comment: IComment) {
+  add_comment(root: HTMLElement, comment: IComment) {
     // Change state
-    this.comments.push(comment);
+    if (comment.parent) {
+      this.comments = this.comments.map((item) => {
+        if (comment.parent === item.id) {
+          return {
+            ...item,
+            replies: [...item.replies, comment],
+          };
+        }
+
+        return item;
+      });
+    } else {
+      this.comments.push(comment);
+    }
 
     // Change view
-    this.root.appendChild(this.render(comment));
+    root.appendChild(this.render(comment));
   }
 
   render(comment: IComment) {
@@ -145,6 +205,13 @@ export default class Comments {
     template.querySelector("[data-comment-text]").textContent = comment.text;
 
     this.update_like(template, comment);
+
+    // Reply
+    if (!comment.parent) {
+      template
+        .querySelector("[data-comment-reply-button]")
+        .classList.add("active");
+    }
 
     // Replies
     if (comment.replies.length) {
@@ -195,55 +262,18 @@ export default class Comments {
     }, 0);
   }
 
-  _escapeHTML(text: string) {
-    return text.replace(/[&<>"']/g, function (m: string) {
-      const htmlSymbol: { [key: string]: string } = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;",
-      };
-
-      return htmlSymbol[m];
-    });
-  }
-
-  async get_comments(): Promise<Array<IComment>> {
+  async get_comments(): Promise<any> {
     // Simulation of data getting delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    return [
-      {
-        id: "1",
-        name: "Emily Fray",
-        text: "Really cool! ✌ I love it!🌏",
-        avatar: "/avatars/emily.png",
-        created_at_timestamp: 1712048942139,
-        likes: 34,
-        replies: [
-          {
-            id: "123623632",
-            name: "Anonymous",
-            text: "That sounds great !!!",
-            avatar: "/avatars/anonymous.png",
-            created_at_timestamp: Date.now(),
-            likes: 10,
-            replies: [],
-            sub: true,
-          },
-        ],
-      },
-      {
-        id: "2",
-        name: "Esther Howard",
-        text: "I would also love to visit there! The best place for me. Will definitely go back there again with my family ☘💕",
-        avatar: "/avatars/esther.png",
-        created_at_timestamp: 1711962542139,
-        likes: 13,
-        liked: true,
-        replies: [],
-      },
-    ];
+    try {
+      const res = await import("../data/comments.json");
+
+      if (res.default.status !== "ok") throw new Error(res.default.message);
+
+      return res.default.data;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

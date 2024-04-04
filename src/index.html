@@ -167,11 +167,14 @@
                         ways to answer that question. “Despair,” though, is not
                         one of them.
                       </p>
-                      <img
-                        loading="lazy"
-                        src="./assets/blog-main.png"
-                        alt="post post image"
-                      />
+                      <div class="image-container">
+                        <img
+                          loading="lazy"
+                          src="./assets/blog-main.png"
+                          alt="post post image"
+                        />
+                      </div>
+
                       <p>
                         I’ve been putting my passport to good use lately. I use
                         it as a coaster and to level wobbly table legs. It makes
@@ -267,12 +270,14 @@
                   <div class="author__inner">
                     <div class="author__avatar">
                       <img
+                        width="100px"
+                        height="100px"
                         src="./assets/author-avatar.png"
                         alt="author avatar"
                       />
                     </div>
                     <div class="author__title title">
-                      <h4 class="title__main">Brooklyn Simmons</h4>
+                      <h2 class="title__main">Brooklyn Simmons</h2>
                     </div>
                     <div class="author__supporters">
                       <svg
@@ -299,13 +304,15 @@
                 <div class="recents-post__container container">
                   <div class="recents-post__inner">
                     <div class="recents-post__title title title--small">
-                      <h4 class="title__main">Recents post</h4>
+                      <h2 class="title__main">Recents post</h2>
                     </div>
                     <ul class="recents-post__list">
                       <li class="recents-post__item recents-post-item">
                         <a class="recents-post-item__link" href="#">
                           <div class="recents-post-item__image">
                             <img
+                              width="56px"
+                              height="56px"
                               loading="lazy"
                               src="./assets/post-1.png"
                               alt="recents post"
@@ -315,10 +322,10 @@
                             <div
                               class="recents-post-item__title title title--x-small"
                             >
-                              <h4 class="title__main">
+                              <h3 class="title__main">
                                 Climate change is hitting the heart of Cajun
                                 country — through its crawfish
-                              </h4>
+                              </h3>
                             </div>
                             <p class="recents-post-item__date">08 Jan 2024</p>
                           </div>
@@ -330,10 +337,10 @@
                             <div
                               class="recents-post-item__title title title--x-small"
                             >
-                              <h4 class="title__main">
+                              <h3 class="title__main">
                                 Climate change is hitting the heart of Cajun
                                 country — through its crawfish
-                              </h4>
+                              </h3>
                             </div>
                             <p class="recents-post-item__date">08 Jan 2024</p>
                           </div>
@@ -343,6 +350,8 @@
                         <a class="recents-post-item__link" href="#">
                           <div class="recents-post-item__image">
                             <img
+                              width="56px"
+                              height="56px"
                               loading="lazy"
                               src="./assets/post-2.png"
                               alt="recents post"
@@ -352,10 +361,10 @@
                             <div
                               class="recents-post-item__title title title--x-small"
                             >
-                              <h4 class="title__main">
+                              <h3 class="title__main">
                                 Climate change is hitting the heart of Cajun
                                 country — through its crawfish
-                              </h4>
+                              </h3>
                             </div>
                             <p class="recents-post-item__date">06 Jan 2024</p>
                           </div>
@@ -365,6 +374,8 @@
                         <a class="recents-post-item__link" href="#">
                           <div class="recents-post-item__image">
                             <img
+                              width="56px"
+                              height="56px"
                               loading="lazy"
                               src="./assets/post-1.png"
                               alt="recents post"
@@ -374,10 +385,10 @@
                             <div
                               class="recents-post-item__title title title--x-small"
                             >
-                              <h4 class="title__main">
+                              <h3 class="title__main">
                                 Climate change is hitting the heart of Cajun
                                 country — through its crawfish
-                              </h4>
+                              </h3>
                             </div>
                             <p class="recents-post-item__date">08 Jan 2024</p>
                           </div>
@@ -389,10 +400,10 @@
                             <div
                               class="recents-post-item__title title title--x-small"
                             >
-                              <h4 class="title__main">
+                              <h3 class="title__main">
                                 Climate change is hitting the heart of Cajun
                                 country — through its crawfish
-                              </h4>
+                              </h3>
                             </div>
                             <p class="recents-post-item__date">08 Jan 2024</p>
                           </div>
@@ -420,7 +431,7 @@
             </div>
             <div class="comment-item__actions">
               <button
-                class="comment-item__like"
+                class="comment-item__like active"
                 aria-label="like comment"
                 data-comment-like-button
               >
@@ -472,6 +483,7 @@
           <div
             class="comments__sender comments-sender"
             style="margin-top: 20px"
+            data-comment-sender
           >
             <div class="comments-sender__avatar">
               <img src="./assets/avatars/anonymous.png" alt="avatar" />
